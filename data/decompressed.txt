@@ -1,0 +1,111 @@
+hello there this is the text file the needs to be compressed:
+Alexandria UniversityBioinformatics
+Faculty of EngineeringLevel 4
+Computer and Systems DepartmentFall 2023
+Sheet 2: Comprehensive Review Questions on Key
+Concepts from Lectures 1-6 in Bioinformatics
+Lecture 1 Questions:
+1. Compare and contrast chromosomes and genes. How many chromosomes do normal
+human cells have, and what are the exceptions?
+2. Contrast the terms "gene" and "genome" in the context of human DNA. How many
+genes have been identified?
+3. Discuss the differences between transcription and translation within the Central Dogma
+of molecular biology.
+4. Compare the eras of biological research before and after the advent of bioinformatics.
+5. When did bioinformatics become prominent?
+6. Contrast the Human Genome Project with other genome projects in terms of
+significance.
+7. Discuss the importance of phylogeny and compare different methods of visualizing it.
+8. Compare gene expression analysis with other forms of biological analysis. Why is gene
+expression analysis critical?
+9. Compare Micro Arrays technology with other technologies in terms of applications.
+10. Discuss "Omics data" in comparison to traditional biological data. Why is "Omics data"
+significant?
+11. Compare disease biomarkers with other types of biological markers.
+12. Differentiate between a "disease pathway" and a "therapeutic pathway."
+13. What differentiates individualized therapy from traditional therapy approaches?
+1Alexandria UniversityBioinformatics
+Faculty of EngineeringLevel 4
+Computer and Systems DepartmentFall 2023
+Lecture 2 Questions:
+1. Compare sequence alignment to other bioinformatics techniques. Can it be applied to
+RNA or protein sequences as well?
+2. Discuss the differences between local and global alignment, including their main
+applications and known algorithms for each.
+3. Compare pairwise alignment with multiple sequence alignments in terms of primary
+uses.
+4. Define and compare "scoring matrix," "scoring scheme," and "traceback" in the context
+of sequence alignment algorithms.
+5. Define Sequence Alignment problem inputs, outputs, and different methods
+6. Contrast SNP, genomic variation, and allele in the context of genetic diversity.
+7. Discuss the various types of genomic variations and compare the methods for identifying
+them.
+8. Compare WGS, WES, and Genotype arrays, focusing on cost implications.
+9. Discuss the implications of non-coding regions being the majority of the human genome.
+Are non-coding regions equivalent to "junk DNA"?
+10. Compare the BLAST tool to other bioinformatics tools.
+2Alexandria UniversityBioinformatics
+Faculty of EngineeringLevel 4
+Computer and Systems DepartmentFall 2023
+Lecture 3 Questions:
+1. Compare GWAS with other genetic studies, Define GWAS studies' input, outputs, and
+methods
+2. Discuss the difference between a phenotype and other genetic expressions.
+3. Compare the Manhattan plot to other graphical representations in genetic studies.
+Discuss its relevance to GWAS.
+4. Discuss why the y-axis in a Manhattan plot is represented logarithmically. Compare the
+chromosome representation on the x-axis with other genetic data visualizations.
+5. Compare MAF, Genotyping Rate, and Hardy-Weinberg Equilibrium as Quality control
+methods in genetic data.
+6. Discuss the genotyping rate and discuss the role of imputation techniques regarding the
+genotyping rate.
+7. Compare PED and MAP formats with BED, BIM, and FAM formats, mentioning any
+analogies
+8. Discuss the issue of false positives in GWAS and compare methods to resolve it.
+9. Discuus PLINK in GWAS inputs, filters, and outputs
+3Alexandria UniversityBioinformatics
+Faculty of EngineeringLevel 4
+Computer and Systems DepartmentFall 2023
+Lecture 4 Questions:
+1. Discuss the role of population structure as a confounder in GWAS compared to other
+study designs.
+2. Compare false negatives to false positives in GWAS, including possible causes.
+3. Discuss PCA and compare its role to other methods in visualizing population structure.
+4. Compare different plot types used for viewing SNP-phenotype associations.
+5. Compare additive, dominant, and recessive encoding types in genetic studies.
+6. Discuss two-sample tests and compare their ability to adjust for confounders with other
+tests.
+7. Compare the utility of contingency tables to other tools in analyzing qualitative
+phenotypes.
+8. Compare discrete test statistics such as Fisher's exact test, χ2 test, and odds ratio
+methods for testing association.
+9. Discuss linear models and compare their assumptions with those of other statistical
+models.
+10. Compare logistic regression models to other linear regression models in terms of
+applications.
+11. Discuss Linkage Disequilibrium and compare its relevance to GWAS based on SNPs
+with other genetic associations.
+4Alexandria UniversityBioinformatics
+Faculty of EngineeringLevel 4
+Computer and Systems DepartmentFall 2023
+Lecture 5 Questions:
+1. What is UPGMA (Unweighted Pair Group Method with Arithmetic Mean), and what types
+of input data does it require? Please define the main computational steps of the method,
+the nature of the output it generates, and the specific distance metrics it utilizes
+Lecture 6 Questions:
+1. Could you explain the differences between RNA polymerase (transcriptase), reverse
+transcriptase, and the reverse transcription-polymerase chain reaction (RT-PCR)
+technique?
+2. What exactly is cDNA, and how does it differ from genomic DNA? Does cDNA contain
+non-coding regions, and if not, why?
+3. What is a DNA microarray assay? Could you describe one method used in DNA
+microarray assays?
+4. How does a t-test differ from a correlation test? Does conducting one of these tests
+provide insight into the results of the other? Please explain why or why not.
+5. Can you differentiate between clustering and classification in the context of data
+analysis?
+6. What distinguishes k-means clustering from fuzzy k-means clustering?
+7. What is a weighted correlation network, and how is co-expression similarity related to it?
+References:
+Lecture 1,2,3,4,5 and 6 Slides
+5
