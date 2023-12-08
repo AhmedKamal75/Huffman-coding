@@ -1,12 +1,13 @@
-# Huffman Compression Project
+# Huffman Compression and Decompression Project
 
-This project is a simple implementation of the Huffman coding algorithm in Java. Huffman coding is a popular algorithm used for lossless data compression.
+This project is an implementation of the Huffman coding algorithm in Java. Huffman coding is a widely used algorithm for lossless data compression.
 
 ## Features
 
-- Generate Huffman codes for a given text file.
-- Compress a text file using Huffman coding.
-- Decompress a Huffman-compressed file back into the original text.
+- Generate Huffman codes for a given file.
+- Compress a file using Huffman coding.
+- Decompress a Huffman-compressed file back into the original file.
+- The program considers `n` bytes together for compression and decompression, where `n` is an integer.
 
 ## Files
 
@@ -16,22 +17,25 @@ This project is a simple implementation of the Huffman coding algorithm in Java.
 
 ## How to Run
 
-1. Compile all the `.java` files:
+### To compress a file:
 
 ```bash
-javac *.java
+java -jar huffman_17010210.jar c absolute_path_to_input_file n
 ```
-2. Run the App class, providing the operation and file paths as arguments. For example, to compress a file:
+Replace `n` with the number of bytes per group.
+
+### To decompress a file:
 
 ```bash
-java App compress data/temp_input.txt data/compressed.huff
-```
-Or to decompress a file:
-```bash
-java App decompress data/compressed.huff data/decompressed.txt
+java -jar huffman_17010210.jar d absolute_path_to_input_file
 ```
 
-Replace `data/temp_input.txt`, `data/compressed.huff`, and `data/decompressed.txt` with your actual file paths.
 
-Note
-This project is for educational purposes and may not be suitable for real-world, production use cases.
+## Output
+
+- If a file is compressed, the compressed file will have the name `17010210.<n>.<original_file_name>.hc` and will appear in the same directory as the input file. The program will print the compression ratio and the compression time.
+- If a file is decompressed, the output file will be named `extracted.<original_file_name>` and will appear in the same directory as the input file. The program will print the decompression time.
+
+## Analysis
+
+The program can be used to analyze the compression ratio for different values of `n`. The compression ratio can be compared with other compression tools like 7-zip.

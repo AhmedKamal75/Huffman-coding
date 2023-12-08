@@ -53,13 +53,13 @@ public class Huffman {
         }
 
         // visualize the tree.
-        assert queue.peek() != null;
-        queue.peek().printTree("", true);
+//        assert queue.peek() != null;
+//        queue.peek().printTree("", true);
 
         return codes;
     }
 
-    public static void compressFile(String inputFilePath, String outputFilePath, int n) throws IOException {
+    public static void compressFile(String inputFilePath, String outputFilePath, String fileExtension, int n) throws IOException {
         // Step 0: get the Huffman code
         Map<ArrayList<Byte>, String> huffmanCodes = getCodes(inputFilePath, n);
 
@@ -87,6 +87,9 @@ public class Huffman {
 
         // Step 2: Write the Huffman codes and the encoded data to a file.
         try (DataOutputStream out = new DataOutputStream(new FileOutputStream(outputFilePath))) {
+            // Write the file extension.
+            out.writeUTF(fileExtension);
+
             // Write the number of Huffman codes.
             out.writeInt(huffmanCodes.size());
 
@@ -122,6 +125,9 @@ public class Huffman {
 
     public static void decompressFile(String inputFilePath, String outputFilePath) throws IOException {
         try (DataInputStream in = new DataInputStream(new FileInputStream(inputFilePath))) {
+            // Read the file extension.
+            String fileExtension = in.readUTF();
+
             // Read the number of Huffman codes.
             int numCodes = in.readInt();
 
@@ -169,7 +175,7 @@ public class Huffman {
             }
 
             // Write the decoded data to a file.
-            try (FileOutputStream out = new FileOutputStream(outputFilePath)) {
+            try (FileOutputStream out = new FileOutputStream(outputFilePath + fileExtension)) {
                 for (Byte b : decodedData) {
                     out.write(b);
                 }
