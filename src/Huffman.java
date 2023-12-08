@@ -1,66 +1,101 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class Huffman {
-    public static Map<Character, String> getCodes(String inputFilePath) throws IOException {
-        // Step 1: Read the file and calculate frequencies.
-        FileReader fr = new FileReader(inputFilePath);
-        HashMap<Character, Integer> map = new HashMap<>();
-        int c;
-        while ((c = fr.read()) != -1) {
-            char character = (char) c;
-            map.put(character, map.getOrDefault(character, 0) + 1);
+
+    private static HashMap<ArrayList<Byte>, Integer> getFrequencies(String inputFilePath, int n) {
+        HashMap<ArrayList<Byte>, Integer> frequencies = new HashMap<>();
+        try (FileInputStream fis = new FileInputStream(inputFilePath)) {
+            ArrayList<Byte> buffer = new ArrayList<>();
+            int byteRead;
+            boolean running = true;
+            while (running) {
+                running = (byteRead = fis.read()) != -1;
+                if (running) {
+                    buffer.add((byte) byteRead);
+                }
+                if (!buffer.isEmpty() && (buffer.size() == n || !running)) {
+                    ArrayList<Byte> key = new ArrayList<>(buffer);
+                    frequencies.put(key, frequencies.getOrDefault(key, 0) + 1);
+                    buffer.clear();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("int the get frequencies method");
+            e.printStackTrace();
         }
-        fr.close();
+        return frequencies;
+    }
+
+    public static Map<ArrayList<Byte>, String> getCodes(String inputFilePath, int n) throws IOException {
+        // Step 1: Read the file and calculate frequencies.
+        HashMap<ArrayList<Byte>, Integer> frequencies = getFrequencies(inputFilePath, n);
 
         // Step 2: Build the Huffman tree.
         PriorityQueue<State> queue = new PriorityQueue<>();
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+        for (Map.Entry<ArrayList<Byte>, Integer> entry : frequencies.entrySet()) {
             queue.add(new State(entry.getKey(), entry.getValue()));
         }
         while (queue.size() > 1) {
             State left = queue.poll();
             State right = queue.poll();
             assert right != null;
-            queue.add(new State(left, right, '\\', left.getCount() + right.getCount()));
+            queue.add(new State(left, right, new ArrayList<>(), left.getCount() + right.getCount()));
         }
 
         // Step 3: Generate Huffman codes.
-        Map<Character, String> codes = new HashMap<>();
+        Map<ArrayList<Byte>, String> codes = new HashMap<>();
         if (!queue.isEmpty()) {
             queue.peek().buildCode("", codes);
         }
 
         // visualize the tree.
-//         assert queue.peek() != null;
-//         queue.peek().printTree("",true);
+        assert queue.peek() != null;
+        queue.peek().printTree("", true);
 
         return codes;
     }
 
-    public static void compressFile(String inputFilePath, String outputFilePath) throws IOException {
+    public static void compressFile(String inputFilePath, String outputFilePath, int n) throws IOException {
         // Step 0: get the Huffman code
-        Map<Character, String> huffmanCodes = getCodes(inputFilePath);
+        Map<ArrayList<Byte>, String> huffmanCodes = getCodes(inputFilePath, n);
 
-        // Step 1: Read the file.
-        String text = new String(Files.readAllBytes(Paths.get(inputFilePath)));
-
-        // Step 2: Encode the file.
+        // Step 1: Read the file and encode it.
         StringBuilder encodedData = new StringBuilder();
-        for (char c : text.toCharArray()) {
-            encodedData.append(huffmanCodes.get(c));
+        try (FileInputStream fis = new FileInputStream(inputFilePath)) {
+            ArrayList<Byte> buffer = new ArrayList<>();
+            int byteRead;
+            boolean running = true;
+            while (running) {
+                running = (byteRead = fis.read()) != -1;
+                if (running) {
+                    buffer.add((byte) byteRead);
+                }
+                if (!buffer.isEmpty() && (buffer.size() == n || !running)) {
+                    ArrayList<Byte> key = new ArrayList<>(buffer);
+                    String code = huffmanCodes.get(key);
+                    if (code != null) {
+                        encodedData.append(code);
+                    }
+                    buffer.clear();
+                }
+            }
         }
 
-        // Step 3: Write the Huffman codes and the encoded data to a file.
+        // Step 2: Write the Huffman codes and the encoded data to a file.
         try (DataOutputStream out = new DataOutputStream(new FileOutputStream(outputFilePath))) {
             // Write the number of Huffman codes.
             out.writeInt(huffmanCodes.size());
 
             // Write each Huffman code.
-            for (Map.Entry<Character, String> entry : huffmanCodes.entrySet()) {
-                out.writeChar(entry.getKey());
+            for (Map.Entry<ArrayList<Byte>, String> entry : huffmanCodes.entrySet()) {
+                out.writeInt(entry.getKey().size());
+                for (Byte b : entry.getKey()) {
+                    out.writeByte(b);
+                }
                 out.writeUTF(entry.getValue());
             }
 
@@ -72,7 +107,9 @@ public class Huffman {
             out.writeByte(padding);
 
             // Add padding to the encoded data.
-            encodedData.append("0".repeat(padding));
+            for (int i = 0; i < padding; i++) {
+                encodedData.append('0');
+            }
 
             // Write the encoded data.
             for (int i = 0; i < encodedData.length(); i += 8) {
@@ -89,11 +126,15 @@ public class Huffman {
             int numCodes = in.readInt();
 
             // Read each Huffman code.
-            Map<String, Character> huffmanCodes = new HashMap<>();
+            Map<String, ArrayList<Byte>> huffmanCodes = new HashMap<>();
             for (int i = 0; i < numCodes; i++) {
-                char character = in.readChar();
+                int size = in.readInt();
+                ArrayList<Byte> sequence = new ArrayList<>(size);
+                for (int j = 0; j < size; j++) {
+                    sequence.add(in.readByte());
+                }
                 String code = in.readUTF();
-                huffmanCodes.put(code, character);
+                huffmanCodes.put(code, sequence);
             }
 
             // Read the encoded data.
@@ -116,23 +157,24 @@ public class Huffman {
             encodedData.setLength(encodedData.length() - padding);
 
             // Decode the encoded data.
-            StringBuilder decodedData = new StringBuilder();
+            ArrayList<Byte> decodedData = new ArrayList<>();
             StringBuilder code = new StringBuilder();
             for (char c : encodedData.toString().toCharArray()) {
                 code.append(c);
-                Character character = huffmanCodes.get(code.toString());
-                if (character != null) {
-                    decodedData.append(character);
+                ArrayList<Byte> sequence = huffmanCodes.get(code.toString());
+                if (sequence != null) {
+                    decodedData.addAll(sequence);
                     code.setLength(0);  // Clear the code.
                 }
             }
 
             // Write the decoded data to a file.
-            try (FileWriter out = new FileWriter(outputFilePath)) {
-                out.write(decodedData.toString());
+            try (FileOutputStream out = new FileOutputStream(outputFilePath)) {
+                for (Byte b : decodedData) {
+                    out.write(b);
+                }
             }
-
         }
-
     }
+
 }

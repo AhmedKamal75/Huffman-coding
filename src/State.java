@@ -1,22 +1,24 @@
+import java.util.ArrayList;
 import java.util.Map;
 
 public class State implements Comparable<State> {
     private State left;
     private State right;
-    private final char character;
+    private final ArrayList<Byte> sequence;
     private final int count;
 
-    public State(char character, int count) {
-        this.character = character;
+    public State(ArrayList<Byte> sequence, int count) {
+        this.sequence = sequence;
         this.count = count;
     }
 
-    public State(State left, State right, char character, int count) {
+    public State(State left, State right, ArrayList<Byte> sequence, int count) {
         this.left = left;
         this.right = right;
-        this.character = character;
+        this.sequence = sequence;
         this.count = count;
     }
+
 
     public int getCount() {
         return count;
@@ -26,22 +28,21 @@ public class State implements Comparable<State> {
         return this.left == null && this.right == null;
     }
 
-    @Override
     public int compareTo(State other) {
         return this.count - other.count;
     }
 
-    public void buildCode(String code, Map<Character, String> map) {
+    public void buildCode(String code, Map<ArrayList<Byte>, String> map) {
         if (isLeaf()) {
-            map.put(character, code);
+            map.put(this.sequence, code);
         } else {
-            left.buildCode(code + '0', map);
-            right.buildCode(code + '1', map);
+            this.left.buildCode(code + '0', map);
+            this.right.buildCode(code + '1', map);
         }
     }
 
     public void printTree(String prefix, boolean isTail) {
-        System.out.println(prefix + (isTail ? "└── " : "├── ") + character + ":" + count);
+        System.out.println(prefix + (isTail ? "└── " : "├── ") + sequence + ":" + count);
         if (right != null) {
             right.printTree(prefix + (isTail ? "    " : "│   "), left == null);
         }
@@ -52,6 +53,6 @@ public class State implements Comparable<State> {
 
     @Override
     public String toString() {
-        return "[" + right + ", " + left + ", " + character + ", " + count + ']';
+        return "[" + right + ", " + left + ", " + sequence + ", " + count + ']';
     }
 }

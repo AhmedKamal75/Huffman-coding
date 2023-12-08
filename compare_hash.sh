@@ -6,11 +6,12 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
-# Use the 'diff' command to compare the files
-diff -q "$1" "$2" > /dev/null
+# Generate SHA-256 hashes of the files
+hash1=$(sha256sum "$1" | awk '{ print $1 }')
+hash2=$(sha256sum "$2" | awk '{ print $1 }')
 
-# Check the exit status of the 'diff' command
-if [ "$?" -eq 0 ]
+# Compare the hashes
+if [ "$hash1" = "$hash2" ]
 then
     echo "The files are the same."
 else
