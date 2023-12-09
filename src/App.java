@@ -3,8 +3,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class App {
+
+//    I acknowledge that I am aware of the academic integrity guidelines of this course, and that I worked on this assignment
+//    independently without any unauthorized help
     private static final String COMPRESSION_EXTENSION = "hc";
     private static final String ID = "17010210";
+    private static final int CHUNK_SIZE = 1024;
 
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
